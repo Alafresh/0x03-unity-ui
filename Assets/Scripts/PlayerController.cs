@@ -1,4 +1,5 @@
-﻿using UnityEngine.SceneManagement;
+﻿using System.Collections;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,8 +19,10 @@ public class PlayerController : MonoBehaviour
         if (health == 0)
         {
             DisplayLose();
-            //SceneManager.LoadScene("maze");
+            StartCoroutine(LoadScene(3));
         }
+        if (Input.GetKey(KeyCode.Escape))
+            SceneManager.LoadScene(0);
     }
     void FixedUpdate()
     {
@@ -48,7 +51,13 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "Goal")
         {
             DisplayWin();
+            StartCoroutine(LoadScene(3));
         }
+    }
+    IEnumerator LoadScene(float seconds)
+    {
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("maze");
     }
     void DisplayLose()
     {
